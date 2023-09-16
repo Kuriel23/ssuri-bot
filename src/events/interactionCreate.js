@@ -33,4 +33,17 @@ module.exports = (client, interaction) => {
 		} else
 			require('../buttons/' + interaction.customId)(client, interaction);
 	}
+	if (interaction.isChatInputCommand()) {
+		const command = client.commands.get(interaction.commandName);
+		if (!command) return;
+		try {
+			command.execute(interaction, client);
+		} catch (err) {
+			if (err) console.error(err);
+			const emberror = new discord.EmbedBuilder()
+				.setTitle('Erro encontrado!')
+				.setColor(client.cor);
+			interaction.reply({ embeds: [emberror] });
+		}
+	}
 };
