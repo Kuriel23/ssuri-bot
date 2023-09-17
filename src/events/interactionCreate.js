@@ -10,7 +10,7 @@ module.exports = (client, interaction) => {
 
 		for (const [key, value] of Object.entries(actions)) {
 			if (interaction.customId.startsWith(key)) {
-				return require('../button/' + value)(client, interaction);
+				return require('../buttons/' + value)(client, interaction);
 			}
 		}
 		if (/^\d{19}$/.test(interaction.values[0])) {
