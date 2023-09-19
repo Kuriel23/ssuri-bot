@@ -13,25 +13,32 @@ module.exports = (client, interaction) => {
 				return require('../buttons/' + value)(client, interaction);
 			}
 		}
-		if (/^\d{19}$/.test(interaction.values[0])) {
-			const role = interaction.guild.roles.cache.get(
-				interaction.values[0],
-			);
-			if (interaction.member.roles.cache.has(role.id)) {
-				interaction.member.roles.remove(role);
-				interaction.reply({
-					content: `Removido <@&${role.id}> com sucesso.`,
-					ephemeral: true,
-				});
-			} else {
-				interaction.reply({
-					content: `Adicionado <@&${role.id}> com sucesso.`,
-					ephemeral: true,
-				});
-				interaction.member.roles.add(role);
-			}
-		} else
+		try {
+			if (/^\d{19}$/.test(interaction.values[0])) {
+				const role = interaction.guild.roles.cache.get(
+					interaction.values[0],
+				);
+				if (interaction.member.roles.cache.has(role.id)) {
+					interaction.member.roles.remove(role);
+					interaction.reply({
+						content: `Removido <@&${role.id}> com sucesso.`,
+						ephemeral: true,
+					});
+				} else {
+					interaction.reply({
+						content: `Adicionado <@&${role.id}> com sucesso.`,
+						ephemeral: true,
+					});
+					interaction.member.roles.add(role);
+				}
+			} else
+				require('../buttons/' + interaction.customId)(
+					client,
+					interaction,
+				);
+		} catch (err) {
 			require('../buttons/' + interaction.customId)(client, interaction);
+		}
 	}
 	if (interaction.isChatInputCommand()) {
 		const command = client.commands.get(interaction.commandName);
