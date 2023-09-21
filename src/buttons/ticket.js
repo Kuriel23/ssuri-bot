@@ -20,7 +20,7 @@ module.exports = async (client, interaction) => {
 			.create({
 				name: `ticket-${tagger}`,
 				type: 0,
-				parent: '1134267678027157599',
+				parent: '1154217817575522364',
 				permissionOverwrites: [
 					{
 						id: interaction.guild.id,
